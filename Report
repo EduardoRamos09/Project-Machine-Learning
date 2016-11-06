@@ -2,4 +2,47 @@
 Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement – a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: http://groupware.les.inf.puc-rio.br/har (see the section on the Weight Lifting Exercise Dataset).
 The aim of this report was to use data from accelerometers placed on the belt, forearm, arm, and dumbell of six participants to predict how well they were doing the exercise in terms of the classification in the data. 
 
-### Libraries
+# Library
+The library used is caret.
+library(caret)
+
+# Loading and cleaning data
+
+First of all the data is loaded (the train and the test set):
+
+pml_training <- read.csv("C:/-/Machine learning/Machine Learning Coursera/Project/pml-training.csv",na.strings=c("NA",""," "))
+pml_testing <- read.csv("C:/-/Machine learning/Machine Learning Coursera/Project/pml-testing.csv",na.strings=c("NA",""," "))
+
+The NA values are removed and the first 8 variables because they are identifiers (e.g. name of the person)
+
+training.NA=apply(pml_training,2,function(x){sum(is.na(x))})
+pml_training=pml_training[,which(training.NA==0)]
+testing.NA=apply(pml_testing,2,function(x){sum(is.na(x))})
+pml_testing=pml_testing[,which(testing.NA==0)]
+pml_training <- pml_training[8:length(pml_training)]
+pml_testing <- pml_testing[8:length(pml_testing)]
+
+The 30 percent of the training set is going to be used to cross validate the model:
+
+inTrain <- createDataPartition(y = pml_training$classe, p = 0.7, list = FALSE)
+training <- data_training_clean[inTrain, ]
+testing <- data_training_clean[-inTrain, ]
+
+# Model selection, estimation and Cross Validation
+
+Random forest is selected as the model due to its flexibility:
+Mod.Fit.RF=train(classe~.,method="rf",data=pml_training)
+
+The model shows an accuracy of xx in
+Pred.RF=predict(Mod.Fit.RF,testing)
+confusionMatrix(Pred.RF,testing$classe)$overall[1]
+
+
+# Prediction
+The accuracy is the xx. The explicative variables allow the model to retrieve good predictions.
+
+Pred.RF.Final=predict(Mod.Fit.RF,pml_testing)
+confusionMatrix(Pred.RF.Final,pml_testing$classe)$overall[1]
+
+
+
