@@ -35,7 +35,7 @@ Random forest is selected as the model due to its flexibility:
 ```{r}
 Mod.Fit.RF=train(classe~.,method="rf",data=pml_training)
 ```
-The model shows an accuracy of xx in
+The model shows an accuracy of xx.
 ```{r}
 Pred.RF=predict(Mod.Fit.RF,testing)
 confusionMatrix(Pred.RF,testing$classe)$overall[1]
