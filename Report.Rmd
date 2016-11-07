@@ -35,17 +35,17 @@ Random forest is selected as the model due to its flexibility:
 ```{r}
 Mod.Fit.RF=train(classe~.,method="rf",data=pml_training)
 ```
-The model shows an accuracy of xx.
+The model shows an accuracy of 99.32%. (Out of sample error=0.68%).
 ```{r}
 Pred.RF=predict(Mod.Fit.RF,testing)
 confusionMatrix(Pred.RF,testing$classe)$overall[1]
 ```
 
 # Prediction
-The accuracy is the xx. The explicative variables allow the model to retrieve good predictions.
+With the accuracy showed in the CV data set, it is reasonable to believe that the model is going to obtain a high level of accuracy using the test set.
+
 ```{r}
 Pred.RF.Final=predict(Mod.Fit.RF,pml_testing)
-confusionMatrix(Pred.RF.Final,pml_testing$classe)$overall[1]
 ```
 
 
