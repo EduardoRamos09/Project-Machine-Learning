@@ -11,8 +11,8 @@ library(caret)
 
 First of all the data is loaded (the train and the test set):
 ```{r}
-pml_training <- read.csv("C:/-/Machine learning/Machine Learning Coursera/Project/pml-training.csv",na.strings=c("NA",""," "))
-pml_testing <- read.csv("C:/-/Machine learning/Machine Learning Coursera/Project/pml-testing.csv",na.strings=c("NA",""," "))
+pml_training=read.csv("C:/-/Machine learning/Machine Learning Coursera/Project/pml-training.csv",na.strings=c("NA",""," "))
+pml_testing=read.csv("C:/-/Machine learning/Machine Learning Coursera/Project/pml-testing.csv",na.strings=c("NA",""," "))
 ```
 The NA values are removed and the first 8 variables because they are identifiers (e.g. name of the person)
 ```{r}
