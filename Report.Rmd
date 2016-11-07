@@ -20,14 +20,14 @@ training.NA=apply(pml_training,2,function(x){sum(is.na(x))})
 pml_training=pml_training[,which(training.NA==0)]
 testing.NA=apply(pml_testing,2,function(x){sum(is.na(x))})
 pml_testing=pml_testing[,which(testing.NA==0)]
-pml_training <- pml_training[8:length(pml_training)]
-pml_testing <- pml_testing[8:length(pml_testing)]
+pml_training=pml_training[8:length(pml_training)]
+pml_testing=pml_testing[8:length(pml_testing)]
 ```
 The 30 percent of the training set is going to be used to cross validate the model:
 ```{r}
-inTrain <- createDataPartition(y = pml_training$classe, p = 0.7, list = FALSE)
-training <- data_training_clean[inTrain, ]
-testing <- data_training_clean[-inTrain, ]
+inTrain=createDataPartition(y = pml_training$classe, p = 0.7, list = FALSE)
+training=data_training_clean[inTrain, ]
+testing=data_training_clean[-inTrain, ]
 ```
 # Model selection, estimation and Cross Validation
 
