@@ -1,0 +1,41 @@
+
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Untitled Document.md</title><style></style></head><body id="preview">
+<h1><a id="Summary_0"></a>Summary</h1>
+<p>Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement – a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: <a href="http://groupware.les.inf.puc-rio.br/har">http://groupware.les.inf.puc-rio.br/har</a> (see the section on the Weight Lifting Exercise Dataset).
+The aim of this report was to use data from accelerometers placed on the belt, forearm, arm, and dumbell of six participants to predict how well they were doing the exercise in terms of the classification in the data.</p>
+<h1><a id="Library_4"></a>Library</h1>
+<p>The library used is caret.</p>
+<pre><code class="language-{r}">library(caret)
+</code></pre>
+<h1><a id="Loading_and_cleaning_data_9"></a>Loading and cleaning data</h1>
+<p>First of all, the data is loaded (the train and the test set):</p>
+<pre><code class="language-{r}">pml_training=read.csv(&quot;C:/-/Machine learning/Machine Learning Coursera/Project/pml-training.csv&quot;,na.strings=c(&quot;NA&quot;,&quot;&quot;,&quot; &quot;))
+pml_testing=read.csv(&quot;C:/-/Machine learning/Machine Learning Coursera/Project/pml-testing.csv&quot;,na.strings=c(&quot;NA&quot;,&quot;&quot;,&quot; &quot;))
+</code></pre>
+<p>The NA values are removed and the first 8 variables because they are identifiers (e.g. name of the person)</p>
+<pre><code class="language-{r}">training.NA=apply(pml_training,2,function(x){sum(is.na(x))})
+pml_training=pml_training[,which(training.NA==0)]
+testing.NA=apply(pml_testing,2,function(x){sum(is.na(x))})
+pml_testing=pml_testing[,which(testing.NA==0)]
+pml_training=pml_training[8:length(pml_training)]
+pml_testing=pml_testing[8:length(pml_testing)]
+</code></pre>
+<p>The 30 percent of the training set is going to be used to cross validate the model:</p>
+<pre><code class="language-{r}">inTrain=createDataPartition(y = pml_training$classe, p = 0.6, list = FALSE)
+training=data_training_clean[inTrain, ]
+testing=data_training_clean[-inTrain, ]
+</code></pre>
+<h1><a id="Model_selection_estimation_and_Cross_Validation_31"></a>Model selection, estimation and Cross Validation</h1>
+<p>Random forest is selected as the model due to its flexibility:</p>
+<pre><code class="language-{r}">Mod.Fit.RF=train(classe~.,method=&quot;rf&quot;,data=pml_training)
+</code></pre>
+<p>The model shows an accuracy of 99.32%. (Out of sample error=0.68%).</p>
+<pre><code class="language-{r}">Pred.RF=predict(Mod.Fit.RF,testing)
+confusionMatrix(Pred.RF,testing$classe)$overall[1]
+</code></pre>
+<h1><a id="Prediction_43"></a>Prediction</h1>
+<p>With the accuracy showed in the CV data set, it is reasonable to believe that the model is going to obtain a high level of accuracy using the test set.</p>
+<pre><code class="language-{r}">Pred.RF.Final=predict(Mod.Fit.RF,pml_testing)
+</code></pre>
+
+</body></html>
